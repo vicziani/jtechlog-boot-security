@@ -1,5 +1,7 @@
 package jtechlog.jtechlogbootsecurity;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
@@ -14,18 +16,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
+@Slf4j
 public class UserService implements UserDetailsService {
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private UserRepository userRepository;
 
     private PasswordEncoder passwordEncoder;
-
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) {
@@ -34,9 +31,9 @@ public class UserService implements UserDetailsService {
     }
     
    public List<User> listUsers() {
-        Object user = SecurityContextHolder.getContext()
+        var user = SecurityContextHolder.getContext()
                .getAuthentication().getPrincipal();
-       logger.debug("Logged in user: {}", user);
+       log.debug("Logged in user: {}", user);
 
        return userRepository.findAll(Sort.by("username"));
    }

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>JTechLog Spring Security</title>
 </head>
@@ -20,7 +19,7 @@
     </div>
 
     <form th:action="@{login}" method="post">
-        <input type="text" name="username" th:value="${lastUsername}"/>
+        <input type="text" name="username" th:value="${session.lastUsername}"/>
         <input type="password" name="password"/>
         <input type="submit" value="Bejelentkezés"/>
     </form>
