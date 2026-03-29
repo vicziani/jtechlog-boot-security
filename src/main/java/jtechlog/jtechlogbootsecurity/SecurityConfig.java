@@ -10,13 +10,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, UsernameInUrlAuthenticationFailureHandler failureHandler) throws Exception {
         http
                 .authorizeHttpRequests(
                         registry -> registry
@@ -28,7 +28,7 @@ public class SecurityConfig {
                 )
                 .formLogin(conf -> conf
                         .loginPage("/login")
-                        .failureHandler(usernameInUrlAuthenticationFailureHandler())
+                        .failureHandler(failureHandler)
                 )
                 .logout(Customizer.withDefaults());
         return http.build();
